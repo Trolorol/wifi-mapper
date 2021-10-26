@@ -1,16 +1,15 @@
 {
-  "name": "wifi-mapper",
+  "name": "mapping-test",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "build": "browserify webmap.js -o public/javascripts/webmap.js & cp node_modules/leaflet/dist/leaflet.css public/stylesheets/leaflet.css"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
-    "leaflet": "^1.7.1",
+    "leaflet-easybutton": "^2.4.0",
     "morgan": "~1.9.1"
   }
 }

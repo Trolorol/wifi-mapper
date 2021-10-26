@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/stylesheets/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+
+    <link rel="stylesheet" href="./index.css">
+    <script src="./index.js"></script>
+    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <!-- falta ajax script para incluir-->
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul class="horizontal_menu">
+                <li>
+                    <a class="nav-button" href="">Menu 1</a>
+                </li>
+                <li>
+                    <a class="nav-button" href="">Menu 2</a>
+                </li>
+
+            </ul>
+            <div class="search-container">
+                <input type="text" placeholder="Search..">
+            </div>
+            <div id="nav-right-col">
+                <!-- Por botão de maximizar noutro lado!!!! -->
+                <a class="nav-button" onclick='maximize_map()'>Maximize</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main">
+        <section id="left_bar">Barra Esquerda</section>
+        <section id="mapid">
+            <div class="leaflet-top leaflet-left">
+                <input type="button" id="Btn1" value="Btn1" onclick="" class="leaflet-btn" />
+                <input type="button" id="Btn2" value="Btn2" onclick="" class="leaflet-btn" />
+                <input type="button" id="Btn3" value="Btn3" onclick="" class="leaflet-btn" />
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>
