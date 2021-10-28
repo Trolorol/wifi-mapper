@@ -65,18 +65,19 @@ window.onload = async function() {
 
 };
 
+
+// TODO alterar innerHTML do botão maximizar minimazar
 function maximize_map() {
 
     if (maximized_clicked) {
         document.getElementById("main").style.gridTemplateColumns = "100px 1fr";
         maximized_clicked = false;
-        document.getElementById("maximize_button").innerHTML = "Maximize"
+        document.getElementById("nav-right-col").getElementsByTagName("a").innerHTML = "Maximize"
     } else {
         document.getElementById("main").style.gridTemplateColumns = "0px 1fr";
         maximized_clicked = true;
-        document.getElementById("maximize_button").innerHTML = "Minimize"
+        document.getElementById("nav-right-col").getElementsByTagName("a").innerHTML = "Minimize"
     }
-
 
 
 }
