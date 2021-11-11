@@ -1,6 +1,6 @@
 var pg = require('pg')
 
-const connectionString = "postgres://admin:calapez14@10.9.0.2:5432/jit-demo"
+const connectionString = "postgres://admin:postgres@localhost:2345/wifi-mapper"
 const Pool = pg.Pool
 const pool = new Pool({
     connectionString,

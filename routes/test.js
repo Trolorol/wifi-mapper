@@ -4,6 +4,7 @@ const fs = require('fs');
 const multer = require('multer');
 const csvParser = require('csv-parser');
 const csv = require("fast-csv")
+const uploaderModel = require('../models/uploaderModel');
 
 
 const upload = multer({ dest: 'tmp/csv/' });
@@ -36,20 +37,21 @@ router.post('/', upload.single('file'), async function(req, res) {
 });
 
 
+// async function file_processing(file) {
+//     let arr = [];
+//     var stream = fs.createReadStream(file);
 
-async function file_processing(file) {
+//     csv.parseStream(stream, { headers: true })
+//         .on("data", function(data) {
+//             arr.push(data);
+//         })
+//         .on("end", function() {
+//             let result = await uploaderModel.uploadFile(data)
+//         });
+// }
 
-    var stream = fs.createReadStream(file);
 
-    csv
-        .parseStream(stream, { headers: true })
-        .on("data", function(data) {
-            console.log('I am one line of data', data);
-        })
-        .on("end", function() {
-            console.log("done");
-        });
-}
+
 // Output:
 // I am one line of data { A: 'A1', B: 'B1', C: 'C1', D: 'D1', E: 'E1' }
 // I am one line of data { A: 'A2', B: 'B2', C: 'C2', D: 'D2', E: 'E2' }

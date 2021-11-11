@@ -1,15 +1,8 @@
-create database wifi_mapper;
+-- Enable PostGIS (includes raster)
+CREATE EXTENSION postgis;
 
-use wifi_mapper;
-
-create table if not exists waps (
-	id serial primary key,
-	location point NOT NULL,
-	strength varchar,
-	user_id int NOT NULL,
-	foreign key(user_id) references users(id),
-	created_on timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+-- Enable Topology
+CREATE EXTENSION postgis_topology;
 
 create table if not exists users (
 	id serial primary key,
@@ -18,7 +11,18 @@ create table if not exists users (
 	created_on timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-create table if not exists bssids(id serial primary key, bssid varchar(60));
+
+create table if not exists waps (
+	id serial primary key,
+	bssid varchar(60),
+	strength varchar,
+	location point,
+	user_id int,
+	foreign key(user_id) references users(id),
+	created_on timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
 
 create table if not exists encryptions(
 	id serial primary key,
@@ -33,12 +37,6 @@ create table if not exists waps_encryptions(
 	foreign key(encryption_id) references encryptions(id)
 );
 
-create table if not exists waps_bssids(
-	wap_id serial,
-	bssid_id serial,
-	foreign key(wap_id) references waps(id),
-	foreign key(bssid_id) references bssids(id)
-);
 
 
 

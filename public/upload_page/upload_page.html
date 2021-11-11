@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../stylesheets/style.css">
     <link rel="stylesheet" href="./upload_page.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="./upload_page.js"></script>
 </head>
 
@@ -25,10 +26,15 @@
         </nav>
     </header>
     <main>
+        <!-- Envolver em form -->
         <section>Descrição do processo de upload</section>
         <label for="file_upload">Upload de Ficheiro:</label>
         <input type="file" id="file_upload" name="file_upload" accept="text/csv">
+        <label for="submit_button"> Carregar </label>
+        <input type="button" id="submit_button" onclick="uploadFile()">
         <section>Mensagem de sistema sucesso ou não sucesso</section>
+
+
     </main>
 
 </body>

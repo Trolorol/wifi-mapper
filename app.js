@@ -18,7 +18,7 @@ app.use(fileUpload({
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-var uploadRouter = require('./routes/test');
+var uploadRouter = require('./routes/fileUploadRoutes');
 
 
 app.use(cors());
@@ -32,7 +32,7 @@ app.use(express.static(path.join('public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use('/api/test', uploadRouter);
+app.use('/api/file_upload', uploadRouter);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
