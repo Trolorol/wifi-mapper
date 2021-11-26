@@ -19,6 +19,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var uploadRouter = require('./routes/fileUploadRoutes');
+var pointsRouter = require('./routes/pointsRoutes');
 
 
 app.use(cors());
@@ -33,6 +34,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.use('/api/file_upload', uploadRouter);
+app.use('/api/points', pointsRouter);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

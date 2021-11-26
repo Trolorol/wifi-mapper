@@ -1,8 +1,12 @@
-var map;
+let leafletMap;
 var final_list = [];
+var markers = {};
 var maximized_clicked = true
-window.onload = async function() {
-    let map = L.map("mapid", {
+var points;
+
+
+async function map() {
+    leafletMap = L.map("mapid", {
         zoomControl: false
     }).setView([38.70704651513132, -9.15248591105515], 18);
 
@@ -18,51 +22,50 @@ window.onload = async function() {
         accessToken: "pk.eyJ1IjoiamNhbGFwZXoiLCJhIjoiY2t1aDN1cWo0MmFjazMxbW9hZG82bjEzNyJ9.9TgRcGWgbTSpCCD-dI4ooA",
     }
 
-    L.tileLayer(tileUrl, attribuition).addTo(map);
+    L.tileLayer(tileUrl, attribuition).addTo(leafletMap);
 
     L.control.zoom({
         position: 'bottomright'
-    }).addTo(map);
-
-    // let points = await $.ajax({
-    //   url: "/api/students",
-    //   method: "get",
-    //   dataType: "json"
-    // });
-
-    // for (let point in poins) {
-    //   var marker = L.marker(point.lat, point.long);
-    //   //lista por criar.push({student: student, marker:marker});
-    //   //student.marker = marker;
-    // }
-    data = [{
-        "name": "point1",
-        "lat": 38.70704651513132,
-        "long": -9.15248591105515
-    }, {
-        "name": "point2",
-        "lat": 38.70804651513132,
-        "long": -9.15248591105515
-    }, {
-        "name": "point3",
-        "lat": 38.70904651513132,
-        "long": -9.15248591105515
-    }]
+    }).addTo(leafletMap);
 
 
+}
 
-    //data.forEach(item => L.marker([item.lat, item.long]).addTo(map));
+async function getAllPoints() {
+    points = await $.ajax({
+        url: '/api/points',
+        type: 'GET',
+    });
 
-    for (let item of data) {
-        coordinates = L.circle([item.lat, item.long]).addTo(map);
-        final_list.push({ marker: coordinates });
+    list = points.result
+
+    for (point in list) {
+        var element = list[point]
+        var lat = element.location.x;
+        var lng = element.location.y;
+        var id = element.id;
+
+
+        var marker = L.marker([lat, lng], { markerId: id });
+        marker.bindPopup('Id: ' + id);
+        marker.on('click', onMarkerClick);
+        marker.addTo(leafletMap);
+
     }
+}
 
 
 
+var onMarkerClick = function(e) {
+    marker = this.options
+    markerId = this.options.markerId
+    alert("You clicked on marker with customId: " + markerId);
+}
 
 
-
+window.onload = async function() {
+    await map();
+    await getAllPoints();
 };
 
 
@@ -78,35 +81,4 @@ function maximize_map() {
         maximized_clicked = true;
         document.getElementById("nav-right-col").getElementsByTagName("a").innerHTML = "Minimize"
     }
-
-
 }
-
-
-
-
-// $('.maximize_button').click(function() {
-//     $('main').css('grid-template-columns', '0px 1fr 100px');
-// })
-
-
-//
-// var marker = L.marker([38.70704651513132, -9.15248591105515]).addTo(map);
-
-
-// var marker_list = [{"point1":{
-//   lat:38.70704651513132,
-//   long:-9.15248591105515
-// }}]
-// //var marker = L.marker([38.70704651513132, -9.15248591105515]).addTo(map);
-
-// marker_list.forEach(item => console.log(item.lat));
-//L.marker(item[0], item[1]).addTo(map)
-
-// for (let marker in marker_list){
-//   console.log(marker[0])
-//   L.marker(marker[0], marker[1]).addTo(map);
-//   final_list.push({marker: point});
-// }
-// // monumentos.push({ name: "IADE", marker: marker });
-// console.log(final_list)
