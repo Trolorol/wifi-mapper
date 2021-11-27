@@ -34,6 +34,7 @@ module.exports.uploadFile = async function(file) {
         });
 }
 
+
 get_encrtpyion_by_name = async function(encryptionName) {
     try {
         let sql = "Select * from encryptions where encryption = $1"; // meter ilike
@@ -62,10 +63,21 @@ insert_encryptions = async function(encryptionName) {
 
 }
 
+CREATE TABLE geometries (name varchar, geom geometry);
+
+INSERT INTO geometries VALUES
+  ('Point', 'POINT(0 0)'),
+  ('Linestring', 'LINESTRING(0 0, 1 1, 2 1, 2 2)'),
+  ('Polygon', 'POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))'),
+  ('PolygonWithHole', 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))'),
+  ('Collection', 'GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))');
+
+SELECT name, ST_AsText(geom) FROM geometries;
+
 insert_waps = async function(bssid, strenght, location, encryptionId) {
     try {
         let sql = "Insert into waps(bssid, strength, location) values($1,$2,$3) RETURNING id";
-        let wapId = await pool.query(sql, [bssid, strenght, location]);
+        let wapId = await pool.query(sql, [bssid, strenght, location]); //Lovation recebe: ('Point', 'POINT(0 0)'),
         encryptions = await insert_waps_encryptions(wapId.rows[0].id, encryptionId) //Falta return?
         return { status: 200 };
     } catch (error) {
