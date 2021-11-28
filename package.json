@@ -22,6 +22,9 @@
         "morgan": "~1.9.1",
         "multer": "^1.4.3",
         "pg": "^8.7.1",
-        "pg-essential": "^1.0.2"
+        "pg-custom-types": "^3.0.0",
+        "pg-essential": "^1.0.2",
+        "pg-postgis-types": "^3.0.0",
+        "postgeo": "^0.1.2"
     }
 }

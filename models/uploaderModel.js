@@ -2,6 +2,7 @@ var pool = require("./connection");
 const csv = require("fast-csv");
 const fs = require('fs');
 
+
 module.exports.uploadFile = async function(file) {
 
     var arr = [];
@@ -63,21 +64,29 @@ insert_encryptions = async function(encryptionName) {
 
 }
 
-CREATE TABLE geometries (name varchar, geom geometry);
+// INSERT INTO waps(bssid, strength, "location")
+// VALUES('T_601', '100', ST_GeomFromText('POINT(-71.060316 48.432044)', 4326));
 
-INSERT INTO geometries VALUES
-  ('Point', 'POINT(0 0)'),
-  ('Linestring', 'LINESTRING(0 0, 1 1, 2 1, 2 2)'),
-  ('Polygon', 'POLYGON((0 0, 1 0, 1 1, 0 1, 0 0))'),
-  ('PolygonWithHole', 'POLYGON((0 0, 10 0, 10 10, 0 10, 0 0),(1 1, 1 2, 2 2, 2 1, 1 1))'),
-  ('Collection', 'GEOMETRYCOLLECTION(POINT(2 0),POLYGON((0 0, 1 0, 1 1, 0 1, 0 0)))');
+//INSERT INTO waps(bssid, strength, location) VALUES($1, $2, ST_GeomFromText('POINT($3)', 4326)) RETURNING id
 
-SELECT name, ST_AsText(geom) FROM geometries;
+// const sql = "INSERT INTO assets (title, id, duration, geodata, genre) VALUES($1, $2, $3, ST_Polygon($4,4326), $5);"
+
+// INSERT INTO waps(bssid, strength, "location")
+// VALUES('T_601', '100', ST_GeomFromText('POINT(-71.060316 48.432044)', 4326));
+// database_1  | 2021-11-27 21:59:52.499 EUROPE [69] ERROR:  function point(unknown) is not unique at character 76
+// database_1  | 2021-11-27 21:59:52.499 EUROPE [69] HINT:  Could not choose a best candidate function. You might need to add explicit type casts.
+// database_1  | 2021-11-27 21:59:52.499 EUROPE [69] STATEMENT:  INSERT INTO waps (bssid, strength, location) VALUES($1,$2, ST_GeomFromText(POINT($3),4326)) RETURNING id
+
 
 insert_waps = async function(bssid, strenght, location, encryptionId) {
     try {
-        let sql = "Insert into waps(bssid, strength, location) values($1,$2,$3) RETURNING id";
-        let wapId = await pool.query(sql, [bssid, strenght, location]); //Lovation recebe: ('Point', 'POINT(0 0)'),
+        location_input = location.split([","]);
+        let point = `'POINT(${location_input[0]+location_input[1]})'`
+        let sql = `INSERT INTO waps (bssid, strength, location) VALUES($1,$2, ST_GeomFromText(${point},4326)) RETURNING id`;
+        console.log(sql);
+        console.log(location);
+        console.log(point);
+        let wapId = await pool.query(sql, [bssid, strenght]); //Lovation recebe: ('Point', 'POINT(0 0)'),
         encryptions = await insert_waps_encryptions(wapId.rows[0].id, encryptionId) //Falta return?
         return { status: 200 };
     } catch (error) {
