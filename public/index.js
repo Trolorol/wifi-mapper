@@ -1,6 +1,8 @@
+//const { getPointsInBoundingBox } = require("../models/mapPointsModel");
+
 let leafletMap;
 var final_list = [];
-var markers = {};
+var markersActiveList = [];
 var maximized_clicked = true;
 var points;
 
@@ -32,47 +34,23 @@ async function map() {
         .addTo(leafletMap);
 
     leafletMap.on('dragend', function onDragEnd() {
-        var width = leafletMap.getBounds().getEast() - leafletMap.getBounds().getWest();
-        var height = leafletMap.getBounds().getNorth() - leafletMap.getBounds().getSouth();
-
-        bounds = leafletMap.getBounds();
-        var boundingBox = bounds.toBBoxString();
-        console.log(
-            'bounds' + boundingBox + '\n' +
-            'center:' + leafletMap.getCenter() + '\n' +
-            'width:' + width + '\n' +
-            'height:' + height + '\n' +
-            'size in pixels:' + leafletMap.getSize()
-        )
-
-        var b = leafletMap.getBounds(); // An instance of L.LatLngBounds
-        var nw = b.getNorthWest(); // An instance of L.LatLng
-        var sw = b.getSouthWest(); // An instance of L.LatLng
-        var ne = b.getNorthEast(); // An instance of L.LatLng
-        var se = b.getSouthEast(); // An instance of L.LatLng
-        boundingBox = `${nw.lng} ${nw.lat}, ${sw.lng} ${sw.lat}, ${ne.lng} ${ne.lat}, ${se.lng} ${se.lat}, ${nw.lng} ${nw.lat}`
-        console.log(`POLYGON((${boundingBox}))`);
-
-
-
-        // var s = 'POLYGON((';
-        // // Build up a POLYGON WKT string
-        // [b.getNorthWest(), b.getNorthEast(), b.getSouthEast(), b.getSouthWest(), b.getNorthWest()].map(function(ll) { s += ll.lng + ' ' + ll.lat + ','; });
-        // // Strip last comma and space
-        // s = s.substring(0, s.length - 2)
-        //     // Don't forget the final '))'
-        // s += '))';
-        // console.log(b.getNorthWest().lat);
+        getInBoundingBox();
     });
 }
 
-async function getAllPoints() {
-    points = await $.ajax({
-        url: "/api/points",
+
+async function getPointsWithinBoundingBox(st_point1, st_point2) {
+
+    let points = await $.ajax({
+        url: `/api/points/bb/?p1=${st_point1}&p2=${st_point2}`,
         type: "GET",
     });
-
     list = points.result;
+
+    // Loop for deleting all markers befor pulling new ones
+    for (marker in markersActiveList) {
+        leafletMap.removeLayer(markersActiveList[marker])
+    }
 
 
     for (point in list) {
@@ -80,11 +58,11 @@ async function getAllPoints() {
         var lat = element.st_x;
         var lng = element.st_y;
         var id = element.id;
-
-        var marker = L.marker([lat, lng], { markerId: id });
+        var marker = L.circle([lat, lng], { markerId: id, radius: 0.5, color: '#FF0000' });
         marker.bindPopup("Id: " + id);
         marker.on("click", onMarkerClick);
         marker.addTo(leafletMap);
+        markersActiveList.push(marker);
     }
 }
 
@@ -97,8 +75,19 @@ var onMarkerClick = function(e) {
 
 window.onload = async function() {
     await map();
-    await getAllPoints();
+    await getInBoundingBox();
+    //await getPointsWithinBoundingBox(bounfingBox.p1, bounfingBox.p2);
 };
+
+
+async function getInBoundingBox() {
+    var b = leafletMap.getBounds(); // An instance of L.LatLngBounds
+    var sw = b.getSouthWest(); // An instance of L.LatLng
+    var ne = b.getNorthEast(); // An instance of L.LatLng
+    st_point1 = `${sw.lat}, ${sw.lng}`
+    st_point2 = `${ne.lat}, ${ne.lng}`
+    await getPointsWithinBoundingBox(st_point1, st_point2);
+}
 
 // TODO alterar innerHTML do botão maximizar minimazar
 function maximize_map() {
