@@ -83,9 +83,6 @@ insert_waps = async function(bssid, strenght, location, encryptionId) {
         location_input = location.split([","]);
         let point = `'POINT(${location_input[0]+location_input[1]})'`
         let sql = `INSERT INTO waps (bssid, strength, location) VALUES($1,$2, ST_GeomFromText(${point},4326)) RETURNING id`;
-        console.log(sql);
-        console.log(location);
-        console.log(point);
         let wapId = await pool.query(sql, [bssid, strenght]); //Lovation recebe: ('Point', 'POINT(0 0)'),
         encryptions = await insert_waps_encryptions(wapId.rows[0].id, encryptionId) //Falta return?
         return { status: 200 };

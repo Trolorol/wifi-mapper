@@ -36,6 +36,10 @@ async function map() {
     leafletMap.on('dragend', function onDragEnd() {
         getInBoundingBox();
     });
+
+    map.on('zoomend', function() {
+        getInBoundingBox();
+    });
 }
 
 
@@ -69,7 +73,15 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
 var onMarkerClick = function(e) {
     marker = this.options;
     markerId = this.options.markerId;
-    alert("You clicked on marker with customId: " + markerId);
+    console.log(markerId);
+    console.log(marker);
+
+    var mapObject = leafletMap._layers;
+    console.log(mapObject);
+
+
+    //L.popup().setContent('<p>Hello world!<br />This is a nice popup.</p>').openOn(leafletMap);
+    //alert("You clicked on marker with customId: " + markerId);
 };
 //Ver bounding box e restrições com zoom level
 
