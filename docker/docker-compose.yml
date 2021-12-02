@@ -19,3 +19,19 @@ services:
             start_period: 10s
         volumes:
             - ./volumes/database:/var/lib/postgresql/data
+    wifimapper:
+        build:
+            context: ./express
+            dockerfile: Dockerfile
+        environment:
+            DATABASE_URL: postgres://admin:postgres@postgres:2345/wifi-mapper
+        ports:
+            - "9919:3000"
+        healthcheck:
+            test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--connect-timeout", "5", "http://wifimapper:8080/"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+            start_period: 10s
+        volumes:
+            - ./volumes/wifimapper:/var/www/html

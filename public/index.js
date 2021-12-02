@@ -37,7 +37,8 @@ async function map() {
         getInBoundingBox();
     });
 
-    map.on('zoomend', function() {
+    leafletMap.on('zoomend', function() {
+        console.log("Zoomend")
         getInBoundingBox();
     });
 }
