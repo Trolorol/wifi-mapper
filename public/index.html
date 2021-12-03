@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
+    <script src="./leftBar.js"></script>
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 
 
     <link rel="stylesheet" href="index.css">
@@ -27,11 +30,7 @@
                 <li>
                     <a class="nav-button" href="upload_page/upload_page.html">Uploads</a>
                 </li>
-                <li>
-                    <button>
-                        <input type="button", id="btnteste">
-                    </button>
-                </li>
+
 
             </ul>
             <div class="search-container">
@@ -45,13 +44,22 @@
     </header>
 
     <main id="main">
-        <section id="left_bar">Barra Esquerda</section>
+        <section id="left-bar">
+            <div class="point-card">
+                <div class="point-card-header">Header</div>
+                <div class="point-card-main">
+                    <i class="material-icons">wifi</i>
+                    <div class="point-card-main-description">
+                        <i class="material-icons" style="font-size:12px;">signal_cellular_alt</i> Força de sinal <br>
+                        <i class="material-icons" style="font-size: 12px;">drive_file_rename_outline</i> BSSID <br>
+                        <i class="material-icons" style="font-size: 12px;">location_on</i> Location
+                        <button class="mdc-button">
+                            <span class="mdc-button__ripple"></span>
+                            <span class="mdc-button__label">Text Button</span>
+                         </button> </div>
+                </div>
+        </section>
         <section id="mapid">
-            <div class="leaflet-top leaflet-left">
-                <input type="button" id="Btn1" value="Btn1" onclick="" class="leaflet-btn" />
-                <input type="button" id="Btn2" value="Btn2" onclick="" class="leaflet-btn" />
-                <input type="button" id="Btn3" value="Btn3" onclick="" class="leaflet-btn" />
-            </div>
         </section>
     </main>
 

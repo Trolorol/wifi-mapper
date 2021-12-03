@@ -105,7 +105,7 @@ async function getInBoundingBox() {
 // TODO alterar innerHTML do botão maximizar minimazar
 function maximize_map() {
     if (maximized_clicked) {
-        document.getElementById("main").style.gridTemplateColumns = "100px 1fr";
+        document.getElementById("main").style.gridTemplateColumns = "200px 1fr";
         maximized_clicked = false;
         document
             .getElementById("nav-right-col")

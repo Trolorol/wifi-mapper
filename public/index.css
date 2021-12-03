@@ -14,3 +14,59 @@ main {
     margin-top: 1rem;
     margin-left: 0.5rem;
 }
+
+#left-bar {
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 1000px rgba(0, 0, 0, 0.5);
+}
+
+.point-card {
+    width: 150px;
+    /* Set width of cards */
+    border: 1px solid #9b9a9a;
+    /* Set up Border */
+    border-radius: 4px;
+    /* Slightly Curve edges */
+    overflow: hidden;
+    /* Fixes the corners */
+    display: flex;
+    /* Children use Flexbox */
+    flex-direction: column;
+    /* Rotate Axis */
+}
+
+.point-card-header {
+    color: #9b9a9a;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid #3b3b3b;
+    background-color: #ffffff;
+    padding: 5px 10px;
+}
+
+.point-card-main {
+    display: flex;
+    /* Children use Flexbox */
+    flex-direction: column;
+    /* Rotate Axis to Vertical */
+    justify-content: center;
+    /* Group Children in Center */
+    align-items: center;
+    /* Group Children in Center (+axis) */
+    padding: 15px 0;
+    /* Add padding to the top/bottom */
+}
+
+.material-icons {
+    font-size: 36px;
+    color: #9b9a9a;
+    margin-bottom: 5px;
+    justify-content: center;
+}
+
+.point-card-main-description {
+    color: #9b9a9a;
+    font-size: 12px;
+    text-align: center;
+}

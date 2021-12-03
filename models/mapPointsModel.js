@@ -28,3 +28,18 @@ module.exports.getAllPoints = async function() {
         return { status: 500, result: error };
     }
 }
+
+module.exports.getPointById = async function(id) {
+    try {
+        let sql = `select bssid, strength, e.encryption, ST_X(location), ST_Y(location) from waps w
+            inner join waps_encryptions we on w.id = we.wap_id
+            inner join encryptions e on we.encryption_id = e.id
+            where w.id = ${id}`;
+        let result = await pool.query(sql);
+        let wap_points = result.rows;
+        return { status: 200, result: wap_points };
+    } catch (error) {
+        console.log(error);
+        return { status: 500, result: error };
+    }
+}

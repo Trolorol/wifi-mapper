@@ -10,4 +10,11 @@ router.get('/bb/', async function(req, res, next) {
     res.send(points);
 });
 
+//Get point by id
+router.get('/:id', async function(req, res, next) {
+    let id = req.params.id;
+    let point = await Points.getPointById(id);
+    res.send(point);
+});
+
 module.exports = router;
