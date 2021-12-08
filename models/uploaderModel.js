@@ -14,7 +14,6 @@ module.exports.uploadFile = async function(file) {
         })
         .on("end", async function() { // Se houver tempo fazer verificação de pontos repetidos na introdução do ficheiro
             try {
-                let encryptions = await getEncryptions();
                 for (element in arr) {
                     let element_encryption = arr[element].Security;
                     let get_encryption = await get_encrtpyion_by_name(element_encryption);

@@ -1,6 +1,7 @@
 main {
     display: grid;
     grid-template-columns: 0px 1fr;
+    height: 94.5vh;
 }
 
 #mapid {
@@ -9,30 +10,23 @@ main {
     width: 100%;
 }
 
-.leaflet-btn {
-    display: flex;
-    margin-top: 1rem;
-    margin-left: 0.5rem;
-}
-
 #left-bar {
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 1000px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto;
+}
+
+#left-bar .point-card {
+    margin-top: 15px;
 }
 
 .point-card {
     width: 150px;
-    /* Set width of cards */
     border: 1px solid #9b9a9a;
-    /* Set up Border */
     border-radius: 4px;
-    /* Slightly Curve edges */
-    overflow: hidden;
-    /* Fixes the corners */
-    display: flex;
-    /* Children use Flexbox */
-    flex-direction: column;
-    /* Rotate Axis */
 }
 
 .point-card-header {
@@ -47,15 +41,10 @@ main {
 
 .point-card-main {
     display: flex;
-    /* Children use Flexbox */
     flex-direction: column;
-    /* Rotate Axis to Vertical */
     justify-content: center;
-    /* Group Children in Center */
     align-items: center;
-    /* Group Children in Center (+axis) */
-    padding: 15px 0;
-    /* Add padding to the top/bottom */
+    padding: 15px;
 }
 
 .material-icons {
@@ -69,4 +58,6 @@ main {
     color: #9b9a9a;
     font-size: 12px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
 }

@@ -1,4 +1,7 @@
-//const { getPointsInBoundingBox } = require("../models/mapPointsModel");
+//const { point } = require("leaflet");
+//const { getPointByBuffer, getPointById } = require("../models/mapPointsModel");
+
+//const { point } = require("leaflet");
 
 let leafletMap;
 var final_list = [];
@@ -47,8 +50,9 @@ async function map() {
 async function getPointsWithinBoundingBox(st_point1, st_point2) {
 
     let points = await $.ajax({
-        url: `/api/points/bb/?p1=${st_point1}&p2=${st_point2}`,
+        url: `/api/points/bb?p1=${st_point1}&p2=${st_point2}`,
         type: "GET",
+        dataType: "json"
     });
     list = points.result;
 
@@ -60,8 +64,8 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
 
     for (point in list) {
         var element = list[point];
-        var lat = element.st_x;
-        var lng = element.st_y;
+        var lat = element.st_y;
+        var lng = element.st_x;
         var id = element.id;
         var marker = L.circle([lat, lng], { markerId: id, radius: 0.5, color: '#FF0000' });
         marker.bindPopup("Id: " + id);
@@ -75,10 +79,12 @@ var onMarkerClick = function(e) {
     marker = this.options;
     markerId = this.options.markerId;
     console.log(markerId);
-    console.log(marker);
+    //console.log(marker);
+
+    showPointInfo(markerId);
+    getNearbyPoints(markerId);
 
     var mapObject = leafletMap._layers;
-    console.log(mapObject);
 
 
     //L.popup().setContent('<p>Hello world!<br />This is a nice popup.</p>').openOn(leafletMap);
@@ -94,13 +100,48 @@ window.onload = async function() {
 
 
 async function getInBoundingBox() {
-    var b = leafletMap.getBounds(); // An instance of L.LatLngBounds
-    var sw = b.getSouthWest(); // An instance of L.LatLng
-    var ne = b.getNorthEast(); // An instance of L.LatLng
-    st_point1 = `${sw.lat}, ${sw.lng}`
-    st_point2 = `${ne.lat}, ${ne.lng}`
-    await getPointsWithinBoundingBox(st_point1, st_point2);
+    let b = leafletMap.getBounds(); // An instance of L.LatLngBounds
+    let sw = b.getSouthWest(); // An instance of L.LatLng
+    let ne = b.getNorthEast(); // An instance of L.LatLng
+    let st_point1 = `${sw.lng}, ${sw.lat}`
+    let st_point2 = `${ne.lng}, ${ne.lat}`
+    await getPointsWithinBoundingBox(st_point1, st_point2); //Recives 2 strings
 }
+
+
+
+async function getNearbyPoints(pointId) {
+    // THis will allways retunrn only a point
+    element = await getPointById(pointId)
+    var lng = element.st_y;
+    var lat = element.st_x;
+    console.log("y: " + lat + ", x: " + lng);
+
+    let nearbyPoints = await $.ajax({
+        url: `/api/points/nearby?lat=${lat}&lng=${lng}`,
+        type: "GET",
+        dataType: "json"
+    });
+
+    console.log("NearbyPoints");
+    console.log(nearbyPoints);
+
+    // nearbyPoints = await getPointsByBuffer(lat, long)
+    // console.log(nearbyPoints)
+
+}
+
+
+async function getPointById(id) {
+    let point = await $.ajax({
+        url: `/api/points?id=${id}`,
+        type: "GET",
+        dataType: "json"
+    });
+    let element = point.result[0];
+    return element;
+}
+
 
 // TODO alterar innerHTML do botão maximizar minimazar
 function maximize_map() {
