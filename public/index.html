@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+    <link rel="stylesheet" href="modal.css">
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script src="./leftBar.js"></script>
@@ -20,6 +21,7 @@
     <!-- falta ajax script para incluir-->
 </head>
 
+
 <body>
     <header>
         <nav>
@@ -32,7 +34,7 @@
                 </li>
             </ul>
             <div class="search-container">
-                <input type="text" placeholder="Search..">
+
             </div>
             <div id="nav-right-col">
                 <!-- Por botão de maximizar noutro lado!!!! -->
@@ -40,6 +42,19 @@
             </div>
         </nav>
     </header>
+
+    <!-- <a href="#openModal">Open Modal</a> -->
+
+    <div id="openModal" class="modalDialog">
+        <div> <a href="#close" title="Close" class="close">X</a>
+
+            <h2>Modal Box</h2>
+
+            <p>This is a sample modal box that can be created using the powers of CSS3.</p>
+            <p>You could do a lot of things here like have a pop-up ad that shows when your website loads, or create a login/register form for users.</p>
+        </div>
+    </div>
+
 
     <main id="main">
         <section id="left-bar"></section>
@@ -52,19 +67,3 @@
 <!-- https://material.io/develop/web/getting-started
 https://material.io/components/buttons/web#text-button
 https://fonts.google.com/icons?selected=Material+Icons&icon.query=location -->
-
-
-<!-- <div class="point-card">
-    <div class="point-card-header" id="card-header">Header Input</div>
-    <div class="point-card-main">
-        <i class="material-icons">wifi</i>
-        <div class="point-card-main-description">
-            <i class="material-icons" style="font-size:12px;">signal_cellular_alt</i>
-            <section id="strenght">-52</section>
-            <i class="material-icons" style="font-size: 12px;">location_on</i>
-            <section id="location">8.654621120888, 9.654621120888</section>
-            <i class="material-icons" style="font-size: 12px;">shield</i>
-            <section id="encryption">WAP2</section>
-        </div>
-    </div>
-</div> -->

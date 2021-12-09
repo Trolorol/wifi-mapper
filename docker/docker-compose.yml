@@ -5,6 +5,7 @@ services:
         build:
             context: ./postgres
             dockerfile: Dockerfile
+        restart: always
         networks:
             - wifimapper-intra
         environment:
@@ -25,6 +26,7 @@ services:
         build:
             context: ./express
             dockerfile: Dockerfile
+        restart: always
         networks:
           - wifimapper-intra
           - wifimapper-web

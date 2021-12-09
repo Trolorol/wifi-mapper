@@ -51,7 +51,7 @@ module.exports.getPointsByBuffer = async function(lat, lng) {
     try {
         let stringPoint = `ST_POINT(${lat}, ${lng})`
         let sql = `Select id, ST_X(location), ST_Y(location) from waps
-            where waps."location" && ST_SetSRID(ST_Buffer(${stringPoint},0.001),4326);`
+            where waps."location" && ST_SetSRID(ST_Buffer(${stringPoint},0.01),4326);`
         console.log(sql);
         let result = await pool.query(sql);
         let wap_points = result.rows;
