@@ -1,10 +1,26 @@
-//const { getPointsInBoundingBox } = require("../models/mapPointsModel");
-
 let leafletMap;
-var final_list = [];
 var markersActiveList = [];
 var maximized_clicked = true;
-var points;
+var activePoints = [];
+
+var clicked;
+
+var clickStyle = {
+    radius: 6,
+    fillColor: "#ff0000",
+    color: "#ff0000",
+    opacity: 1,
+    weight: 2,
+    fillOpacity: 1,
+}
+var unclickStyle = {
+    radius: 6,
+    fillColor: "#09f9df",
+    color: "#ff0000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 1,
+}
 
 async function map() {
     leafletMap = L.map("mapid", {
@@ -38,17 +54,16 @@ async function map() {
     });
 
     leafletMap.on('zoomend', function() {
-        console.log("Zoomend")
         getInBoundingBox();
     });
 }
 
-
 async function getPointsWithinBoundingBox(st_point1, st_point2) {
 
     let points = await $.ajax({
-        url: `/api/points/bb/?p1=${st_point1}&p2=${st_point2}`,
+        url: `/api/points/bb?p1=${st_point1}&p2=${st_point2}`,
         type: "GET",
+        dataType: "json"
     });
     list = points.result;
 
@@ -60,10 +75,10 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
 
     for (point in list) {
         var element = list[point];
-        var lat = element.st_x;
-        var lng = element.st_y;
+        var lat = element.st_y;
+        var lng = element.st_x;
         var id = element.id;
-        var marker = L.circle([lat, lng], { markerId: id, radius: 0.5, color: '#FF0000' });
+        var marker = L.circle([lat, lng], { markerId: id, radius: 1.5, unclickStyle });
         marker.bindPopup("Id: " + id);
         marker.on("click", onMarkerClick);
         marker.addTo(leafletMap);
@@ -71,20 +86,24 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
     }
 }
 
-var onMarkerClick = function(e) {
+
+var onMarkerClick = async function(e) {
+    // if (clicked) {
+    //     clicked.setStyle(unclickStyle);
+    // }
+    // e.target.setStyle(clickStyle);
+    // clicked = e.target;
+    leftBar = document.getElementById("left-bar").innerHTML = "";
     marker = this.options;
     markerId = this.options.markerId;
-    console.log(markerId);
-    console.log(marker);
 
-    var mapObject = leafletMap._layers;
-    console.log(mapObject);
+    pointObject = await getPointById(markerId);
+    getNearbyPoints(markerId);
 
-
-    //L.popup().setContent('<p>Hello world!<br />This is a nice popup.</p>').openOn(leafletMap);
-    //alert("You clicked on marker with customId: " + markerId);
+    if (maximized_clicked) {
+        maximize_map();
+    }
 };
-//Ver bounding box e restrições com zoom level
 
 window.onload = async function() {
     await map();
@@ -92,29 +111,62 @@ window.onload = async function() {
     //await getPointsWithinBoundingBox(bounfingBox.p1, bounfingBox.p2);
 };
 
-
 async function getInBoundingBox() {
-    var b = leafletMap.getBounds(); // An instance of L.LatLngBounds
-    var sw = b.getSouthWest(); // An instance of L.LatLng
-    var ne = b.getNorthEast(); // An instance of L.LatLng
-    st_point1 = `${sw.lat}, ${sw.lng}`
-    st_point2 = `${ne.lat}, ${ne.lng}`
-    await getPointsWithinBoundingBox(st_point1, st_point2);
+    let b = leafletMap.getBounds(); // An instance of L.LatLngBounds
+    let sw = b.getSouthWest(); // An instance of L.LatLng
+    let ne = b.getNorthEast(); // An instance of L.LatLng
+    let st_point1 = `${sw.lng}, ${sw.lat}`
+    let st_point2 = `${ne.lng}, ${ne.lat}`
+    await getPointsWithinBoundingBox(st_point1, st_point2); //Recives 2 strings
 }
 
-// TODO alterar innerHTML do botão maximizar minimazar
+async function getNearbyPoints(pointId) {
+    element = await getPointById(pointId)
+    var lng = element.st_y;
+    var lat = element.st_x;
+
+
+    let nearbyPoints = await $.ajax({
+        url: `/api/points/nearby?lat=${lat}&lng=${lng}`,
+        type: "GET",
+        dataType: "json"
+    });
+
+    for (point in nearbyPoints.result) {
+        let markerId = nearbyPoints.result[point].id
+
+        pointObject = await getPointById(markerId);
+        showPointInfo(pointObject)
+        activePoints.push(pointObject);
+    }
+}
+
+async function getPointById(id) {
+    let point = await $.ajax({
+        url: `/api/points?id=${id}`,
+        type: "GET",
+        dataType: "json"
+    });
+    let element = point.result[0];
+    return element;
+}
+
 function maximize_map() {
     if (maximized_clicked) {
-        document.getElementById("main").style.gridTemplateColumns = "100px 1fr";
+        document.getElementById("main").style.gridTemplateColumns = "200px 1fr";
         maximized_clicked = false;
-        document
-            .getElementById("nav-right-col")
-            .getElementsByTagName("a").innerHTML = "Maximize";
     } else {
         document.getElementById("main").style.gridTemplateColumns = "0px 1fr";
         maximized_clicked = true;
-        document
-            .getElementById("nav-right-col")
-            .getElementsByTagName("a").innerHTML = "Minimize";
+        leftBar = document.getElementById("left-bar").innerHTML = "";
     }
+}
+
+function popUpInfo() {
+    // Tenho um array activePoints, que contem todos os pontos que estão no leftbar
+    // Quando clico num ponto, quero enviar para o popup a informação sobre esse ponto
+    // Para isso, tenho que ir buscar a informação do ponto no servidor com o
+    // id do objeto que esta no array activePoints
+    // E depois, mostrar a informação no popup para editar
+
 }

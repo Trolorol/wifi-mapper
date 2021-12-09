@@ -21,7 +21,7 @@ for point in points:
     operator = random.choice(["MEO", "VODAFONE", "NOS"])
     security = random.choice(["AES", "DES", "3DES", "WEP", "WPA", "WPA2"])
     c = point["geometry"]["coordinates"]
-    location = "{}, {}".format(c[1], c[0])
+    location = "{}, {}".format(c[0], c[1])
     writer.writerow([str(operator) + str(rand), str(s_rand), str(security), location])
     print(count)
     count += 1

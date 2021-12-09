@@ -4,11 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+    <link rel="stylesheet" href="modal.css">
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-
+    <script src="./leftBar.js"></script>
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
 
 
     <link rel="stylesheet" href="index.css">
@@ -16,6 +20,7 @@
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
     <!-- falta ajax script para incluir-->
 </head>
+
 
 <body>
     <header>
@@ -27,15 +32,9 @@
                 <li>
                     <a class="nav-button" href="upload_page/upload_page.html">Uploads</a>
                 </li>
-                <li>
-                    <button>
-                        <input type="button", id="btnteste">
-                    </button>
-                </li>
-
             </ul>
             <div class="search-container">
-                <input type="text" placeholder="Search..">
+
             </div>
             <div id="nav-right-col">
                 <!-- Por botão de maximizar noutro lado!!!! -->
@@ -44,17 +43,27 @@
         </nav>
     </header>
 
-    <main id="main">
-        <section id="left_bar">Barra Esquerda</section>
-        <section id="mapid">
-            <div class="leaflet-top leaflet-left">
-                <input type="button" id="Btn1" value="Btn1" onclick="" class="leaflet-btn" />
-                <input type="button" id="Btn2" value="Btn2" onclick="" class="leaflet-btn" />
-                <input type="button" id="Btn3" value="Btn3" onclick="" class="leaflet-btn" />
-            </div>
-        </section>
-    </main>
+    <!-- <a href="#openModal">Open Modal</a> -->
 
+    <div id="openModal" class="modalDialog">
+        <div> <a href="#close" title="Close" class="close">X</a>
+
+            <h2>Modal Box</h2>
+
+            <p>This is a sample modal box that can be created using the powers of CSS3.</p>
+            <p>You could do a lot of things here like have a pop-up ad that shows when your website loads, or create a login/register form for users.</p>
+        </div>
+    </div>
+
+
+    <main id="main">
+        <section id="left-bar"></section>
+        <section id="mapid"></section>
+    </main>
 </body>
 
 </html>
+
+<!-- https://material.io/develop/web/getting-started
+https://material.io/components/buttons/web#text-button
+https://fonts.google.com/icons?selected=Material+Icons&icon.query=location -->
