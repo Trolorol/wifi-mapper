@@ -1,7 +1,7 @@
 let leafletMap;
 var markersActiveList = [];
 var maximized_clicked = true;
-var activePoints = [];
+var activePointsHash = {};
 
 var clicked;
 
@@ -83,6 +83,7 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
         marker.on("click", onMarkerClick);
         marker.addTo(leafletMap);
         markersActiveList.push(marker);
+
     }
 }
 
@@ -122,6 +123,7 @@ async function getInBoundingBox() {
 
 async function getNearbyPoints(pointId) {
     element = await getPointById(pointId)
+    console.log(element);
     var lng = element.st_y;
     var lat = element.st_x;
 
@@ -137,7 +139,8 @@ async function getNearbyPoints(pointId) {
 
         pointObject = await getPointById(markerId);
         showPointInfo(pointObject)
-        activePoints.push(pointObject);
+        activePointsHash[markerId] = pointObject;
+        //activePointsHash.push(pointObject);
     }
 }
 
@@ -162,11 +165,50 @@ function maximize_map() {
     }
 }
 
-function popUpInfo() {
+function popUpInfo(id) {
+    console.log(id)
+    modal = document.getElementById("openModal");
+    let pointObject = activePointsHash[id]
+    html = `<div id="popUpInfoDiv">
+                <a href="#close" title="Close" class="close">X</a>
+                <h2>${pointObject.bssid}</h2>
+                <h3>Located at: ${pointObject.st_x}, ${pointObject.st_y}</h3>
+                <form id="changePointForm">
+                   Change BSSID: <input type="text" id="changePointInfoName" value="Mickey">
+                   Change Security: <input type="text" id="changePointInfoSecurity" value="Mickey">
+                   Change Strenght: <input type="text" id="changePointInfoStrenght" value="Mickey">
+                   Lat: <input type="text" id="changePointInfoLat">
+                   Lng: <input type="text" id="changePointInfoLng">
+                   <button onclick="changePointInfo(${pointObject.id})">Change Point Info</button>
+                </form>
+            </div`
+        //change point info esta a dar stress 
+    modal.innerHTML = html;
+
     // Tenho um array activePoints, que contem todos os pontos que estão no leftbar
     // Quando clico num ponto, quero enviar para o popup a informação sobre esse ponto
     // Para isso, tenho que ir buscar a informação do ponto no servidor com o
     // id do objeto que esta no array activePoints
     // E depois, mostrar a informação no popup para editar
-
 }
+
+//async function changePointInfo(pointObject) {
+// let sendObject = {
+//     currentPointObject: pointObject,
+//     name: document.getElementById("changePointInfoSecurity").value,
+//     security: document.getElementById("changePointInfoSecurity").value,
+//     strenght: document.getElementById("changePointInfoSecurity").value,
+//     lat: document.getElementById("changePointInfoSecurity").value,
+//     long: document.getElementById("changePointInfoSecurity").value
+// }
+// let changeInfo = await $.ajax({
+//     url: '/api/points/update',
+//     method: 'post',
+//     dataType: 'json',
+//     data: JSON.stringify(sendObject),
+//     contentType: 'application/json'
+// });
+
+
+
+//}

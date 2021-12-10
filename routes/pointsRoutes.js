@@ -21,8 +21,14 @@ router.get('/nearby', async function(req, res, next) {
 router.get('/', async function(req, res, next) {
     let id = req.query.id;
     let point = await Points.getPointById(id);
-    console.log(point);
     res.send(point);
+});
+
+router.post('/update', async function(req, res, next) {
+    let id = req.body.id;
+    console.log(req.body)
+        // let point = await Points.updatePoint(id, req.body);
+        // res.send(point);
 });
 
 

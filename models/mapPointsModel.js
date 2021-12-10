@@ -34,7 +34,7 @@ module.exports.getAllPoints = async function() {
 
 module.exports.getPointById = async function(id) {
     try {
-        let sql = `select bssid, strength, e.encryption, ST_X(location), ST_Y(location) from waps w
+        let sql = `select w.id, w.bssid, w.strength, e.encryption, ST_X(w.location), ST_Y(w.location) from waps w
             inner join waps_encryptions we on w.id = we.wap_id
             inner join encryptions e on we.encryption_id = e.id
             where w.id = ${id}`;
@@ -46,6 +46,7 @@ module.exports.getPointById = async function(id) {
         return { status: 500, result: error };
     }
 }
+
 
 module.exports.getPointsByBuffer = async function(lat, lng) {
     try {

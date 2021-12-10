@@ -1,7 +1,7 @@
-async function showPointInfo(pointObject) {
-    leftBar = document.getElementById("left-bar");
-    html = `<a href="#openModal" class='modalAnchor'>
-            <div href="#openModal" class="point-card" style="cursor: pointer;" href="#openModal">
+ function showPointInfo(pointObject) {
+     leftBar = document.getElementById("left-bar");
+     html = `<a href="#openModal" class='modalAnchor'>
+            <div class="point-card" style="cursor: pointer;" href="#openModal">
                 <div class="point-card-header" id="card-header">${pointObject.bssid}</div>
                 <div class="point-card-main">
                     <i class="material-icons">wifi</i>
@@ -12,9 +12,10 @@ async function showPointInfo(pointObject) {
                         <section id="location">${pointObject.st_x}, ${pointObject.st_y}</section>
                         <i class="material-icons" style="font-size: 12px;">shield</i>
                         <section id="encryption">${pointObject.encryption}</section>
+                        <button onclick="popUpInfo(${pointObject.id})">Teste</button>
                     </div>
                 </div>
             </div>
             <a/>`
-    leftBar.innerHTML += html;
-}
+     leftBar.innerHTML += html;
+ }
