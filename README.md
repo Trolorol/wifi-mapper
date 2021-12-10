@@ -1,4 +1,4 @@
-# mapping-test
+# Wifi Mapper
 
 ## Table of Contents
 
