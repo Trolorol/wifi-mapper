@@ -87,13 +87,7 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
     }
 }
 
-
 var onMarkerClick = async function(e) {
-    // if (clicked) {
-    //     clicked.setStyle(unclickStyle);
-    // }
-    // e.target.setStyle(clickStyle);
-    // clicked = e.target;
     leftBar = document.getElementById("left-bar").innerHTML = "";
     marker = this.options;
     markerId = this.options.markerId;
@@ -123,7 +117,6 @@ async function getInBoundingBox() {
 
 async function getNearbyPoints(pointId) {
     element = await getPointById(pointId)
-    console.log(element);
     var lng = element.st_y;
     var lat = element.st_x;
 
@@ -166,7 +159,6 @@ function maximize_map() {
 }
 
 function popUpInfo(id) {
-    console.log(id)
     modal = document.getElementById("openModal");
     let pointObject = activePointsHash[id]
     html = `<div id="popUpInfoDiv">
@@ -175,28 +167,21 @@ function popUpInfo(id) {
                 <h3>Located at: ${pointObject.st_x}, ${pointObject.st_y}</h3>
                 <form id="changePointForm">
                    Change BSSID: <input type="text" id="changePointInfoName" value="Mickey">
-                   Change Security: <input type="text" id="changePointInfoSecurity" value="Mickey">
+                   Change Security: <input type="text" id="changePointInfoEncryption" value="Mickey">
                    Change Strenght: <input type="text" id="changePointInfoStrenght" value="Mickey">
                    Lat: <input type="text" id="changePointInfoLat">
                    Lng: <input type="text" id="changePointInfoLng">
                    <button onclick="changePointInfo(${pointObject.id})">Change Point Info</button>
                 </form>
             </div`
-        //change point info esta a dar stress 
     modal.innerHTML = html;
-
-    // Tenho um array activePoints, que contem todos os pontos que estão no leftbar
-    // Quando clico num ponto, quero enviar para o popup a informação sobre esse ponto
-    // Para isso, tenho que ir buscar a informação do ponto no servidor com o
-    // id do objeto que esta no array activePoints
-    // E depois, mostrar a informação no popup para editar
 }
 
 async function changePointInfo(pointObjectId) {
     let sendObject = {
         pointObject: activePointsHash[pointObjectId],
         name: document.getElementById("changePointInfoName").value,
-        security: document.getElementById("changePointInfoSecurity").value,
+        encryption: document.getElementById("changePointInfoEncryption").value,
         strength: document.getElementById("changePointInfoStrenght").value,
         lat: document.getElementById("changePointInfoLat").value,
         lng: document.getElementById("changePointInfoLng").value
@@ -208,4 +193,21 @@ async function changePointInfo(pointObjectId) {
         data: JSON.stringify(sendObject),
         contentType: 'application/json'
     });
+    console.log(`Change Info: ${changeInfo}`);
+}
+
+
+async function filterBssid(bssidText) {
+    try {
+        let bssid = document.getElementById("bssidSearch").value;
+        let points = await $.ajax({
+            url: `/api/students/filter/?name=${bssidText}`,
+            method: 'get',
+            dataType: 'json'
+        });
+        createStudentsHTML(students);
+    } catch (err) {
+        console.log(err);
+    }
+
 }

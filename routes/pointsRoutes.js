@@ -25,58 +25,71 @@ router.get('/', async function(req, res, next) {
 });
 
 router.post('/update', async function(req, res, next) {
-    let currentId = req.body.pointObject.id;
+    // fObject is short for final object to be inserted into the database
+    let fObject = { id: req.body.pointObject.id }
+
+    //Compare if there are changes in bssid
     let currentBssid = req.body.pointObject.bssid;
+    let newBssid = req.body.name
+    if (currentBssid != newBssid) {
+        fObject.bssid = newBssid
+    } else {
+        fObject.bssid = currentBssid
+    }
+    //Compare if there are changes with Strength value
     let currentStrength = req.body.pointObject.strength;
+    let newStrength = req.body.strength
+    if (currentStrength != newStrength) {
+        fObject.strength = newStrength
+    } else {
+        fObject.strength = currentStrength
+    }
+    //Compare if there are changes with Encryption value
     let currentEncryption = req.body.pointObject.encryption;
+    let newEncryption = req.body.encryption
+    if (currentEncryption != newEncryption) {
+        fObject.encryption = newEncryption
+    } else {
+        fObject.encryption = currentEncryption
+    }
+
+    //Compare if there are changes with coordinates values
+    //This logic exists because the coordinates are a pair of values
+    let lat;
+    let lng;
     let currentLat = String(req.body.pointObject.st_x); //-9.15
     let currentLng = String(req.body.pointObject.st_y); //38.70
-
-    let newBssid = req.body.name
-    let newSecurity = req.body.security
-    let newStrength = req.body.strength
     let newLat = req.body.lat //
     let newLng = req.body.lng //80.12
-
-    console.log(newLat + " " + newLng);
-    console.log(newLat != currentLat)
-
-    console.log(currentLat + " " + currentLng);
-    console.log("######")
-
-    let newPointObject = { id: currentId }
-
-    //Compare the current values with the new values and update if they are different
-    if (currentBssid != newBssid) {
-        newPointObject.bssid = newBssid
-    }
-    if (currentStrength != newStrength) {
-        newPointObject.strength = newStrength
-    }
-    if (currentEncryption != newSecurity) {
-        newPointObject.encryption = newSecurity
-    }
-
     if (newLat != currentLat || newLng != currentLng) {
-        if (newLat == currentLat) {
-            newPointObject.st_x = currentLat
+        if (newLat == currentLat || newLat == "") {
+            lat = currentLat
         } else {
-            newPointObject.st_x = newLat
+            lat = newLat
         }
-        if (newLng == currentLng) {
-            newPointObject.st_y = currentLng
+        if (newLng == currentLng || newLng == "") {
+            lng = currentLng
         } else {
-            newPointObject.st_y = newLng
+            lng = newLng
         }
+    } else {
+        lat = currentLat
+        lng = currentLng
     }
 
-    console.log(newPointObject)
+    fObject.point = [lat, lng]
+        //Doing this process the object is allways complete
 
-
-    // let point = await Points.updatePoint(id, req.body);
-    // res.send(point);
+    let point = await Points.updatePoint(fObject);
+    console.log("Model Awnser");
+    console.log(point.result);
+    res.send(point);
 });
 
-
+router.post('/filter', async function(req, res, next) {
+    let filter = req.body.bssid;
+    let points = await Points.getPointsByFilter(filter);
+    res.send(points);
+});
 
 module.exports = router;

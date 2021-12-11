@@ -1,12 +1,11 @@
 main {
     display: grid;
     grid-template-columns: 0px 1fr;
-    height: 94.5vh;
+    height: calc(100vh - 46px);
 }
 
 #mapid {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    height: calc(100vh - 50px);
     width: 100%;
 }
 

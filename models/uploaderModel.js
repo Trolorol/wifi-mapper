@@ -9,15 +9,12 @@ module.exports.uploadFile = async function(file) {
     deleteFilesFromDirectory();
     let arr = [];
     let stream = fs.createReadStream(file);
-    console.log(file);
     csv.parseStream(stream, { headers: true })
         .on("data", function(data) {
             arr.push(data);;
         })
         .on("end", async function() { // Se houver tempo fazer verificação de pontos repetidos na introdução do ficheiro
             try {
-
-
                 for (element in arr) {
                     let element_encryption = arr[element].Security;
                     let get_encryption = await get_encrtpyion_by_name(element_encryption);
@@ -41,7 +38,7 @@ module.exports.uploadFile = async function(file) {
 
 get_encrtpyion_by_name = async function(encryptionName) {
     try {
-        let sql = "Select * from encryptions where encryption = $1"; // meter ilike
+        let sql = "Select * from encryptions where encryption LIKE $1"; // meter ilike
         let result = await pool.query(sql, [encryptionName]);
         let encryptions = result.rows[0];
         if (typeof encryptions !== "undefined") {
@@ -66,20 +63,6 @@ insert_encryptions = async function(encryptionName) {
     }
 
 }
-
-// INSERT INTO waps(bssid, strength, "location")
-// VALUES('T_601', '100', ST_GeomFromText('POINT(-71.060316 48.432044)', 4326));
-
-//INSERT INTO waps(bssid, strength, location) VALUES($1, $2, ST_GeomFromText('POINT($3)', 4326)) RETURNING id
-
-// const sql = "INSERT INTO assets (title, id, duration, geodata, genre) VALUES($1, $2, $3, ST_Polygon($4,4326), $5);"
-
-// INSERT INTO waps(bssid, strength, "location")
-// VALUES('T_601', '100', ST_GeomFromText('POINT(-71.060316 48.432044)', 4326));
-// database_1  | 2021-11-27 21:59:52.499 EUROPE [69] ERROR:  function point(unknown) is not unique at character 76
-// database_1  | 2021-11-27 21:59:52.499 EUROPE [69] HINT:  Could not choose a best candidate function. You might need to add explicit type casts.
-// database_1  | 2021-11-27 21:59:52.499 EUROPE [69] STATEMENT:  INSERT INTO waps (bssid, strength, location) VALUES($1,$2, ST_GeomFromText(POINT($3),4326)) RETURNING id
-
 
 insert_waps = async function(bssid, strenght, location, encryptionId) {
     try {
@@ -119,11 +102,7 @@ getEncryptions = async function() {
 }
 
 function deleteFilesFromDirectory() {
-
     const directory = "./uploads";
-
-
-
     fs.readdir(directory, (err, files) => {
         if (err) throw err;
 
