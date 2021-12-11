@@ -71,7 +71,7 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
     for (marker in markersActiveList) {
         leafletMap.removeLayer(markersActiveList[marker])
     }
-
+    markersActiveList = [];
 
     for (point in list) {
         var element = list[point];
@@ -192,23 +192,20 @@ function popUpInfo(id) {
     // E depois, mostrar a informação no popup para editar
 }
 
-//async function changePointInfo(pointObject) {
-// let sendObject = {
-//     currentPointObject: pointObject,
-//     name: document.getElementById("changePointInfoSecurity").value,
-//     security: document.getElementById("changePointInfoSecurity").value,
-//     strenght: document.getElementById("changePointInfoSecurity").value,
-//     lat: document.getElementById("changePointInfoSecurity").value,
-//     long: document.getElementById("changePointInfoSecurity").value
-// }
-// let changeInfo = await $.ajax({
-//     url: '/api/points/update',
-//     method: 'post',
-//     dataType: 'json',
-//     data: JSON.stringify(sendObject),
-//     contentType: 'application/json'
-// });
-
-
-
-//}
+async function changePointInfo(pointObjectId) {
+    let sendObject = {
+        pointObject: activePointsHash[pointObjectId],
+        name: document.getElementById("changePointInfoName").value,
+        security: document.getElementById("changePointInfoSecurity").value,
+        strength: document.getElementById("changePointInfoStrenght").value,
+        lat: document.getElementById("changePointInfoLat").value,
+        lng: document.getElementById("changePointInfoLng").value
+    }
+    let changeInfo = await $.ajax({
+        url: '/api/points/update',
+        method: 'post',
+        dataType: 'json',
+        data: JSON.stringify(sendObject),
+        contentType: 'application/json'
+    });
+}

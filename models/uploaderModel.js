@@ -1,19 +1,23 @@
 var pool = require("./connection");
 const csv = require("fast-csv");
 const fs = require('fs');
+const path = require('path');
+
 
 
 module.exports.uploadFile = async function(file) {
-
-    var arr = [];
-    var stream = fs.createReadStream(file);
-
+    deleteFilesFromDirectory();
+    let arr = [];
+    let stream = fs.createReadStream(file);
+    console.log(file);
     csv.parseStream(stream, { headers: true })
         .on("data", function(data) {
-            arr.push(data);
+            arr.push(data);;
         })
         .on("end", async function() { // Se houver tempo fazer verificação de pontos repetidos na introdução do ficheiro
             try {
+
+
                 for (element in arr) {
                     let element_encryption = arr[element].Security;
                     let get_encryption = await get_encrtpyion_by_name(element_encryption);
@@ -112,4 +116,21 @@ getEncryptions = async function() {
         console.log(error);
         return { status: 500, result: error };
     }
+}
+
+function deleteFilesFromDirectory() {
+
+    const directory = "./uploads";
+
+
+
+    fs.readdir(directory, (err, files) => {
+        if (err) throw err;
+
+        for (const file of files) {
+            fs.unlink(path.join(directory, file), err => {
+                if (err) throw err;
+            });
+        }
+    });
 }

@@ -9,7 +9,7 @@ module.exports.getPointsInBoundingBox = async function(st1, st2) {
         let stringPoint2 = `ST_POINT(${st2})`
         let sql = `Select id, ST_X(location), ST_Y(location) from waps
         where waps."location" &&
-        ST_SetSRID(ST_MakeBox2D(${stringPoint1},${stringPoint2}),4326)`
+        ST_SetSRID(ST_MakeBox2D(${stringPoint1},${stringPoint2}),4326) limit 4000;`
 
         let result = await pool.query(sql);
         let wap_points = result.rows;
@@ -54,6 +54,19 @@ module.exports.getPointsByBuffer = async function(lat, lng) {
         let sql = `Select id, ST_X(location), ST_Y(location) from waps
             where waps."location" && ST_SetSRID(ST_Buffer(${stringPoint},0.01),4326);`
         console.log(sql);
+        let result = await pool.query(sql);
+        let wap_points = result.rows;
+        return { status: 200, result: wap_points };
+    } catch (error) {
+        console.log(error);
+        return { status: 500, result: error };
+    }
+}
+
+module.exports.updatePoint = async function(id, bssid, strength, encryption) {
+    try {
+        let sql = `update waps set bssid = '${bssid}', strength = ${strength}
+        where id = ${id}`;
         let result = await pool.query(sql);
         let wap_points = result.rows;
         return { status: 200, result: wap_points };
