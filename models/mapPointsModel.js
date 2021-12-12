@@ -106,7 +106,7 @@ module.exports.updatePoint = async function(fObject) {
     }
 
     try {
-        point_sql = `'POINT(${point[0]+" "+point[1]})'`
+        point_sql = `'POINT(${point[1]+" "+point[0]})'`
         let sql = `update waps
             set bssid = '${bssid}', strength = '${strength}',location = ST_GeomFromText(${point_sql},4326)
             where id = ${pointId} RETURNING bssid, strength, ST_X(location), ST_Y(location)`;
