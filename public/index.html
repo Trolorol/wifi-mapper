@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
     <link rel="stylesheet" href="modal.css">
+
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
     <script src="./leftBar.js"></script>
@@ -17,7 +18,8 @@
 
     <link rel="stylesheet" href="index.css">
     <script src="index.js"></script>
-    <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
     <!-- falta ajax script para incluir-->
 </head>
 
@@ -34,11 +36,15 @@
                 </li>
             </ul>
             <div class="search-container">
+                <label for="bssidSearch" id="seacrh-label">Search:</label>
+                <input type="text" id="bssidSearch" onkeyup="filterBssid()">
+                <!-- create counting from points -->
+
 
             </div>
             <div id="nav-right-col">
                 <!-- Por botão de maximizar noutro lado!!!! -->
-                <a class="nav-button" onclick='maximize_map()'>Maximize</a>
+                <!-- <a class="nav-button" onclick='maximize_map()'>Maximize</a> -->
             </div>
         </nav>
     </header>
@@ -46,18 +52,15 @@
     <!-- <a href="#openModal">Open Modal</a> -->
 
     <div id="openModal" class="modalDialog">
-        <div> <a href="#close" title="Close" class="close">X</a>
-
-            <h2>Modal Box</h2>
-
-            <p>This is a sample modal box that can be created using the powers of CSS3.</p>
-            <p>You could do a lot of things here like have a pop-up ad that shows when your website loads, or create a login/register form for users.</p>
+        <div id="popUpInfoDiv"> <a href="#close" title="Close" class="close">X</a>
         </div>
     </div>
 
 
     <main id="main">
-        <section id="left-bar"></section>
+        <div id="left-bar">
+
+        </div>
         <section id="mapid"></section>
     </main>
 </body>

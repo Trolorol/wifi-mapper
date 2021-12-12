@@ -26,7 +26,7 @@ body {
 
 header {
     background-color: #333;
-    height: 5.5vh;
+    height: 46px;
 }
 
 header nav {
@@ -41,11 +41,6 @@ header nav ul {
     margin: 0;
     padding-left: 10px;
     overflow: hidden;
-}
-
-.search-container {
-    display: flex;
-    justify-content: center;
 }
 
 #nav-right-col {

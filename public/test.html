@@ -1,61 +1,18 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-    </style>
-</head>
-
-<body>
-
-    <h2>Modal Example</h2>
-
-    <!-- Trigger/Open The Modal -->
-    <button id="myBtn">Open Modal</button>
-
-    <!-- The Modal -->
-    <div id="myModal" class="modal">
-
-        <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Some text in the Modal..</p>
-        </div>
-
+<div class="card">
+    <div class="card-content">
+        <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
     </div>
-
-    <script>
-        // Get the modal
-        var modal = document.getElementById("myModal");
-
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-            modal.style.display = "block";
-        }
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-    </script>
-
-</body>
-
-</html>
+    <div class="card-tabs">
+        <ul class="tabs tabs-fixed-width">
+            <li class="tab"><a href="https://amzn.to/3jOaZKL">Test 1</a></li>
+            <li class="tab"><a class="active" href="#test5">Test 2</a></li>
+            <li class="tab"><a href="#test6">Test 3</a></li>
+        </ul>
+    </div>
+    <div class="card-content grey lighten-4">
+        <div id="test4">Test 1</div>
+        <div id="test5">Test 2</div>
+        <div id="test6">Test 3</div>
+        <button onclick="">Teste</button>
+    </div>
+</div>
