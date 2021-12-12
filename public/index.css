@@ -22,6 +22,10 @@ main {
     margin-top: 15px;
 }
 
+.point-card:hover {
+    background-color: rgb(218, 218, 218);
+}
+
 .point-card {
     width: 150px;
     border: 1px solid #9b9a9a;
@@ -59,4 +63,29 @@ main {
     text-align: center;
     display: flex;
     flex-direction: column;
+}
+
+.popupCustom .leaflet-popup-tip,
+.popupCustom .leaflet-popup-content-wrapper {
+    background: #e0e0e0;
+    color: #234c5e;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+}
+
+#seacrh-label {
+    color: #ffffff;
+    padding-right: 1vh;
+}
+
+.point-card button {
+    margin: 0.5vh;
+    font-size: 13px;
+}
+
+button#deleteButton {
+    background-color: rgb(192, 98, 98);
 }

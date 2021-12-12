@@ -10,6 +10,13 @@ router.get('/bb', async function(req, res, next) {
     res.send(points);
 });
 
+router.get('/filter', async function(req, res, next) {
+    let filter = req.query.name
+    let points = await Points.getPointByName(filter);
+    res.send(points);
+});
+
+
 router.get('/nearby', async function(req, res, next) {
     let lat = req.query.lat;
     let lng = req.query.lng;
@@ -81,15 +88,20 @@ router.post('/update', async function(req, res, next) {
         //Doing this process the object is allways complete
 
     let point = await Points.updatePoint(fObject);
-    console.log("Model Awnser");
-    console.log(point.result);
     res.send(point);
 });
 
-router.post('/filter', async function(req, res, next) {
-    let filter = req.body.bssid;
-    let points = await Points.getPointsByFilter(filter);
-    res.send(points);
+router.delete('/delete', async function(req, res, next) {
+    let id = req.query.id;
+    let point = await Points.deletePoint(id);
+    res.send(point);
 });
+
+router.post('/insert', async function(req, res, next) {
+
+    let point = await Points.insertPoint(req.body);
+    res.send(point);
+});
+
 
 module.exports = router;

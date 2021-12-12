@@ -20,15 +20,14 @@
 }
 
 .modalDialog>div {
-    width: 400px;
+    width: 60vh;
     position: relative;
     margin: 10% auto;
-    padding: 5px 20px 13px 20px;
     border-radius: 10px;
-    background: #fff;
-    background: -moz-linear-gradient(#fff, #999);
-    background: -webkit-linear-gradient(#fff, #999);
-    background: -o-linear-gradient(#fff, #999);
+    background: #999;
+    display: grid;
+    justify-content: center;
+    padding: 2vh;
 }
 
 .close {
@@ -56,4 +55,11 @@
 
 #left-bar a:link {
     text-decoration: none !important;
+}
+
+#changePointForm {
+    display: grid;
+    grid-template-columns: 20vh 25vh;
+    grid-gap: 10px;
+    justify-content: center;
 }

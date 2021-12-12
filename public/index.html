@@ -36,14 +36,15 @@
                 </li>
             </ul>
             <div class="search-container">
-                <p> Name: <input type="text" id="bssidSearch" size="15"> </p>
+                <label for="bssidSearch" id="seacrh-label">Search:</label>
+                <input type="text" id="bssidSearch" onkeyup="filterBssid()">
                 <!-- create counting from points -->
 
 
             </div>
             <div id="nav-right-col">
                 <!-- Por botão de maximizar noutro lado!!!! -->
-                <a class="nav-button" onclick='maximize_map()'>Maximize</a>
+                <!-- <a class="nav-button" onclick='maximize_map()'>Maximize</a> -->
             </div>
         </nav>
     </header>

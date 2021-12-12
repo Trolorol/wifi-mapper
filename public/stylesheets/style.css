@@ -43,11 +43,6 @@ header nav ul {
     overflow: hidden;
 }
 
-.search-container {
-    display: flex;
-    justify-content: center;
-}
-
 #nav-right-col {
     display: flex;
     justify-content: flex-end;
