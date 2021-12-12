@@ -24,6 +24,7 @@ var unclickStyle = {
 window.onload = async function() {
     await map();
     await getInBoundingBox();
+    await getTotalPoints();
 };
 
 async function map() {
@@ -55,6 +56,7 @@ async function map() {
 
     leafletMap.on('moveend', function() {
         getInBoundingBox();
+        getTotalPoints();
     });
 
 
@@ -284,8 +286,6 @@ function insertPoint() {
 
 }
 
-
-
 function popUpInfoCreate(lat, long) {
     modal = document.getElementById("openModal");
     html = `<div id="popUpInfoDiv">
@@ -307,4 +307,18 @@ function popUpInfoCreate(lat, long) {
                 </form>
             </div`
     modal.innerHTML = html;
+}
+
+async function getTotalPoints() {
+    $.ajax({
+        url: '/api/points/total',
+        method: 'get',
+        dataType: 'json',
+        success: function(result) {
+            document.getElementById("totalPoints").innerHTML = `Total Points: ${result.result.count}`;
+        }
+    });
+    document.getElementById("screenPoints").innerHTML = `Points In Screen: ${Object.keys(markersActiveList).length}`;
+
+
 }

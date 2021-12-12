@@ -200,7 +200,17 @@ module.exports.insertPoint = async function(fObject) {
     }
 }
 
-
+module.exports.getTotalPoints = async function() {
+    try {
+        let sql = `select count(*) from waps`;
+        let result = await pool.query(sql);
+        let wap_points = result.rows;
+        return { status: 200, result: wap_points[0] };
+    } catch (error) {
+        console.log(error);
+        return { status: 500, result: error };
+    }
+}
 
 deleteWapsEncryptions = async function(wapId) {
     try {

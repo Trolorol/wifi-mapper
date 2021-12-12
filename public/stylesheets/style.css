@@ -46,4 +46,5 @@ header nav ul {
 #nav-right-col {
     display: flex;
     justify-content: flex-end;
+    color: rgb(172, 187, 35);
 }

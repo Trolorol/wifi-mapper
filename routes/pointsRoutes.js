@@ -103,5 +103,10 @@ router.post('/insert', async function(req, res, next) {
     res.send(point);
 });
 
+router.get('/total', async function(req, res, next) {
+    let points = await Points.getTotalPoints();
+    res.send(points);
+});
+
 
 module.exports = router;
