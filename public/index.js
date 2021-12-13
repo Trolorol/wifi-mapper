@@ -1,7 +1,7 @@
 let leafletMap;
-var markersActiveList = {};
+var markersActiveHash = {};
 var maximized_clicked = true;
-var activePointsHash = {};
+var activeSideBarPointsHash = {};
 var clicked;
 
 var clickStyle = {
@@ -77,7 +77,7 @@ async function map() {
         </a>`)
         marker.addTo(leafletMap);
         marker.openPopup();
-        markersActiveList[coord] = marker;
+        markersActiveHash[coord] = marker;
     });
 }
 // '<button type="button">Click for more</button>'
@@ -93,10 +93,10 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
     list = points.result;
 
     // Loop for deleting all markers befor pulling new ones
-    for (marker in markersActiveList) {
-        leafletMap.removeLayer(markersActiveList[marker])
+    for (marker in markersActiveHash) {
+        leafletMap.removeLayer(markersActiveHash[marker])
     }
-    markersActiveList = {};
+    markersActiveHash = {};
 
     for (point in list) {
         var element = list[point];
@@ -107,7 +107,7 @@ async function getPointsWithinBoundingBox(st_point1, st_point2) {
         marker.bindPopup("BSSID: " + element.bssid);
         marker.on("click", onMarkerClick);
         marker.addTo(leafletMap);
-        markersActiveList[id] = marker;
+        markersActiveHash[id] = marker;
 
     }
 }
@@ -149,7 +149,7 @@ async function getNearbyPoints(pointId) {
 
         pointObject = await getPointById(markerId);
         showPointInfo(pointObject)
-        activePointsHash[markerId] = pointObject;
+        activeSideBarPointsHash[markerId] = pointObject;
     }
 }
 
@@ -176,7 +176,7 @@ function maximize_map() {
 
 function popUpInfo(id) {
     modal = document.getElementById("openModal");
-    let pointObject = activePointsHash[id]
+    let pointObject = activeSideBarPointsHash[id]
     html = `<div id="popUpInfoDiv">
                 <a href="#close" title="Close" class="close">X</a>
                 <h2>${pointObject.bssid}</h2>
@@ -201,7 +201,7 @@ function popUpInfo(id) {
 
 async function changePointInfo(pointObjectId) {
     let sendObject = {
-        pointObject: activePointsHash[pointObjectId],
+        pointObject: activeSideBarPointsHash[pointObjectId],
         name: document.getElementById("changePointInfoName").value,
         encryption: document.getElementById("changePointInfoEncryption").value,
         strength: document.getElementById("changePointInfoStrenght").value,
@@ -233,7 +233,7 @@ async function filterBssid() {
             for (point in points.result) {
                 let pointObject = points.result[point];
                 showPointInfo(pointObject)
-                activePointsHash[pointObject.id] = pointObject;
+                activeSideBarPointsHash[pointObject.id] = pointObject;
             }
         }
     } catch (error) {
@@ -249,8 +249,8 @@ function goToPoint(lat, long) {
     leafletMap.setZoom(18);
 
     // This doesn't work TODO
-    //dMarker = markersActiveList[pointObjectId]
-    //markersActiveList[pointObjectId].openPopup(); 
+    //dMarker = markersActiveHash[pointObjectId]
+    //markersActiveHash[pointObjectId].openPopup(); 
 }
 
 async function deletePoint(pointObjectId) {
@@ -318,7 +318,7 @@ async function getTotalPoints() {
             document.getElementById("totalPoints").innerHTML = `Total Points: ${result.result.count}`;
         }
     });
-    document.getElementById("screenPoints").innerHTML = `Points In Screen: ${Object.keys(markersActiveList).length}`;
+    document.getElementById("screenPoints").innerHTML = `Points In Screen: ${Object.keys(markersActiveHash).length}`;
 
 
 }
