@@ -14,12 +14,6 @@ services:
             POSTGRES_DB: wifi-mapper
         # ports:
         #     - "2345:5432"
-        healthcheck:
-            test: ["CMD", "pg_isready", "-U"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-            start_period: 10s
         volumes:
             - ./volumes/database:/var/lib/postgresql/data
     wifimapper:
@@ -38,12 +32,6 @@ services:
             PGPASSWORD: postgres
             PGDATABASE: wifi-mapper
             PGPORT: 5432
-        healthcheck:
-            test: ["CMD", "curl", "--fail", "--silent", "--show-error", "--connect-timeout", "5", "http://wifimapper:8080/"]
-            interval: 10s
-            timeout: 5s
-            retries: 5
-            start_period: 10s
         volumes:
             - ./volumes/wifimapper:/var/www/html
 
