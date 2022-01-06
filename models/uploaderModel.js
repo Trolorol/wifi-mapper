@@ -6,7 +6,7 @@ const path = require('path');
 
 
 module.exports.uploadFile = async function(file) {
-    deleteFilesFromDirectory();
+    //deleteFilesFromDirectory();
     let arr = [];
     let stream = fs.createReadStream(file);
     csv.parseStream(stream, { headers: true })
